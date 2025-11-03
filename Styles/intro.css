@@ -13,7 +13,7 @@
     width: 100%;
     height: 60px;
     background-color: transparent;
-    color: red;
+    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -46,7 +46,7 @@
 
 /* Links styling */
 .top-bar-content a {
-    color: red;
+    color: white;
     text-decoration: none;
     margin-left: 15px;
     font-size: 1rem;
