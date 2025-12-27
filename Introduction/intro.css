@@ -6,7 +6,7 @@
 }
 
 * body {
-    padding-top: 64px;
+    padding-top: 16px;
 }
 
 
@@ -22,7 +22,7 @@ html {
 
 /* Top Bar */
 .topbar {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
@@ -126,4 +126,36 @@ html {
 .hero-right {
   display: flex;
   justify-content: center;
+}
+
+
+/* Logo slideshow */
+
+#logo-slideshow-header {
+    padding: 200px;
+    text-align: center;
+    color: rgb(156, 59, 59);
+}
+
+.logo-slideshow-section {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.logo-photos-slideshow {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    width: max-content;
+    will-change: transform;
+}
+
+.logo-photos-slideshow img {
+    opacity: 85%;
+    height: 350px;           /* adjust as needed */
+    width: auto;
+    margin-left: 30px;
+    user-select: none;
+    pointer-events: none;
 }
