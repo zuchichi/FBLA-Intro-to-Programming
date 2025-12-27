@@ -1,0 +1,130 @@
+/* Pre-requisites for styling */
+* {
+    margin: 0;
+    padding: 0
+    box-sizing: border-box;
+}
+
+* body {
+    padding-top: 64px;
+}
+
+
+
+/* Set up fonts (used inter) */
+html {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont,
+               'Segoe UI', Roboto, sans-serif;
+}
+
+
+
+
+/* Top Bar */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: transparent;
+  z-index: 1000;
+
+  transition: transform 0.3s ease;
+}
+
+.nav {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+/* Base nav links */
+.nav-item {
+  color: #b11226;
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.nav-item:hover {
+  opacity: 0.75;
+  transform: translateY(-1px);
+}
+
+/* CTA */
+.nav-item.primary {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1.5px solid #b11226;
+  font-weight: 600;
+}
+
+.nav-item.primary:hover {
+  background: rgba(177, 18, 38, 0.08);
+}
+
+
+
+
+
+/* Hero */
+.hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 24px 0;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 64px;
+}
+
+/* Left side */
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #b11226;
+  margin: 0;
+}
+
+#logo-hero {
+    width: 150px;
+    height: 150px;
+    position: relative;
+    right: 55px;
+}
+
+/* Context text */
+.brand-context {
+  color: #ff0000;
+  opacity: 60%;
+  font-size: 1.1rem;
+  max-width: 420px;
+  line-height: 1.5;
+}
+
+/* Right side */
+.hero-right {
+  display: flex;
+  justify-content: center;
+}
