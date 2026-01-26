@@ -159,3 +159,42 @@ html {
     user-select: none;
     pointer-events: none;
 }
+
+
+
+/*           Stuff for FAQ Page           */
+
+.header-section-faq {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+}
+
+
+
+#introduction-to-faq-header {
+  margin-top: 50px;
+  text-align: center;
+  color: rgb(156, 59, 59);
+  left: 50px;
+}
+
+#confused-red-panda {
+  position: relative;
+  width: 9%;
+  right: 25px;
+}
+
+#faq-info {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+
+  margin-top: 45px;
+  font-weight: bold;
+  color: rgb(190, 98, 98);
+}
