@@ -162,39 +162,55 @@ html {
 
 
 
-/*           Stuff for FAQ Page           */
-
 .header-section-faq {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 24px 0;
+  padding: 40px 24px;
+
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  gap: 16px;
+
+  gap: 20px;
 }
 
-
-
 #introduction-to-faq-header {
-  margin-top: 50px;
+  margin: 0;
   text-align: center;
   color: rgb(156, 59, 59);
-  left: 50px;
 }
 
 #confused-red-panda {
-  position: relative;
-  width: 9%;
-  right: 25px;
+  width: 150px;
 }
 
 #faq-info {
-  display: flex;
+  max-width: 60ch;
+  margin: 24px auto 0;
+  
   text-align: center;
-  justify-content: center;
+  line-height: 1.6;
+  font-size: 25px;
+  max-width: 950px;
 
-  margin-top: 45px;
-  font-weight: bold;
+  color: rgb(190, 98, 98);
+}
+
+/*     Informatics About Project (FAQ)     */
+
+.headers-faq {
+  padding: 60px 24px;   /* slight breathing room from screen edge */
+}
+
+.faq-header {
+  font-size: 48px;      /* BIG header */
+  font-weight: 700;
+  color: rgb(156, 59, 59);
+  margin: 40px 0 16px;  /* space between headers & content */
+  text-align: left;    /* force left alignment */
+}
+
+.faq-text {
+  line-height: 1.6;
   color: rgb(190, 98, 98);
 }
