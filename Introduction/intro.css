@@ -199,15 +199,15 @@ html {
 /*     Informatics About Project (FAQ)     */
 
 .headers-faq {
-  padding: 60px 24px;   /* slight breathing room from screen edge */
+  padding: 60px 24px;
 }
 
 .faq-header {
-  font-size: 48px;      /* BIG header */
+  font-size: 48px;
   font-weight: 700;
   color: rgb(156, 59, 59);
-  margin: 40px 0 16px;  /* space between headers & content */
-  text-align: left;    /* force left alignment */
+  margin: 40px 0 16px;
+  text-align: left;
 }
 
 .faq-text {
