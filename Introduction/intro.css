@@ -214,3 +214,53 @@ html {
   line-height: 1.6;
   color: rgb(190, 98, 98);
 }
+
+
+/*      Get Started Section      */
+
+.get-started {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  text-align: center;
+  gap: 24px;
+}
+
+.get-started h1 {
+  flex-basis: 100%;
+  color: rgb(156, 59, 59);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.get-started button {
+  background-color: rgb(156, 59, 59);
+  color: white;
+  padding: 12px 24px;
+  margin: 0 4px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.get-started button:hover {
+  transform: scale(1.05);
+}
+
+
+#developer-tag {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+
+  padding: 15px;
+  color: rgb(156, 59, 59);
+  font-size: 0.9rem;
+  margin-top: 40px;
+}
