@@ -40,3 +40,11 @@
 .read-the-docs {
   color: #888;
 }
+
+
+.rounded-rect {
+  width: 200px;
+  height: 100px;
+  background-color: rgb(202, 62, 62);
+  border-radius: 15px;
+}

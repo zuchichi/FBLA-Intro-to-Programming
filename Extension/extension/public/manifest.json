@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Redpie Virtual Pet",
+  "name": "Redpie",
   "version": "1.0.0",
   "description": "A virtual pet that learns from your web actions using NLP.",
   "action": {
