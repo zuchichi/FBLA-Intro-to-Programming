@@ -21,7 +21,6 @@ import { Chores } from './Pages/Chores'
 function Layout() {
   return (
     <>
-      <Button>Test Button</Button>
       <Outlet />
     </>
   )

@@ -1,11 +1,15 @@
 import Button from '../Components/Button';
 import Logo from '../assets/redpie_mini_logo.png';
+import { useNavigate } from 'react-router-dom'
+import '../index.css'
 
 export function Intro() {
+    const navigate = useNavigate()
+
     return (
         <div style={{
-            width: '470px',
-            height: '600px',
+            width: '200px',
+            height: '250px',
             backgroundColor: "rgb(203, 61, 61)",
             borderRadius: '20px',
 
@@ -14,21 +18,26 @@ export function Intro() {
             alignItems: 'center',
             flexDirection: 'column'
         }}>
-
-            <h1>Redpie</h1>
+            <p style={{fontSize: "25px"}}>Redpie</p>
             <img
                 src={Logo}
                 alt="Redpie Logo"
-                style={{ width: '150px', marginBottom: '20px' }}
+                style={{ width: '120px', marginBottom: '5px' }}
             />
-            
-            <Button bgColor="rgb(134, 43, 43)" textColor="#FFFFFF">
-                Log In!
+            <Button
+              style={{ fontSize: "13px", padding: "5px 10px" }}
+              onClick={() => navigate('/login')}
+             >
+                Log in!
             </Button>
 
-            <Button bgColor="rgb(134, 43, 43)" textColor="#FFFFFF">
+            <Button 
+              style={{ fontSize: "13px", padding: "5px 10px" }}
+              onClick={() => navigate('/signup')}
+            >
                 Get Started
-            </Button>
+                </Button>
+            <p style={{opacity: "60%", fontSize: "9px"}}>Devloped by Uchechi Ejiogu.</p>
         </div>
     )
 }
