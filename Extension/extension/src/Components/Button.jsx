@@ -1,4 +1,4 @@
-export default function Button({children}) {
+export default function Button({children, bgColor = "c0453a", textColor="#FFFFF" }) {
   return (
     <>
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');`}</style>
@@ -12,8 +12,8 @@ export default function Button({children}) {
       }}>
         <button
           style={{
-            backgroundColor: "#c0453a",
-            color: "#d6cece",
+            backgroundColor: bgColor,
+            color: textColor,
 
             border: "none",
             outline: "none",
@@ -27,8 +27,8 @@ export default function Button({children}) {
             cursor: "pointer",
             letterSpacing: "0.5px",
           }}
-          onMouseEnter={e => e.target.style.backgroundColor = "#a83b31"}
-          onMouseLeave={e => e.target.style.backgroundColor = "#c0453a"}
+          onMouseEnter={e => e.target.style.filter = "brightness(90%)"}
+          onMouseLeave={e => e.target.style.filter = "none"}
         >
           {children}
         </button>
