@@ -140,7 +140,7 @@ export function SignUp() {
       });
 
       console.log("User initalized. Going to home screen.");
-      navigate('/home');
+      navigate('/customize');
     } catch(error) {
       console.log(error);
     }

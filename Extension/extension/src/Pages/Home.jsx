@@ -8,6 +8,11 @@ import BambooIcon from '../assets/bamboo.png';
 import BookIcon from '../assets/book.png';
 import Button from '../Components/Button';
 
+/* Firebase */
+import { auth, db } from "./firebase"; // adjust path
+import { doc, getDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 
@@ -156,13 +161,18 @@ const styles = `
 
 export function Home() {
   const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
 
-  // Placeholder values, I'll replace with real state/props later
-  const userName = 'nil';
-  const petName = '(pet-name)';
-  const mood = 'studious';
-  const petApples = 'nil';
-  const petBamboo = 'nil';
+  /* Fetch user values */
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (snap.exists()) setUserData(snap.data());
+    };
+    fetchUser();
+  }, []);
 
   return (
     <>
@@ -175,13 +185,13 @@ export function Home() {
             <button className="home-paw-btn" onClick={() => navigate('/login')} title="Log out">
               <img src={PawIcon} alt="Logout" />
             </button>
-            <div className="home-greeting">Good afternoon, {userName}!</div>
+            <div className="home-greeting">Good afternoon, {userData?.username}!</div>
             <img src={PandaIcon} alt="Red Panda" className="home-panda-img" />
           </div>
 
           {/* Subtitle */}
           <div className="home-subtitle">
-            {petName} is currently feeling {mood} today!
+            {userData?.petName} is currently feeling {userData?.mood} today!
           </div>
 
           {/* Body text */}
@@ -198,14 +208,14 @@ export function Home() {
 
           {/* Pet status */}
           <div className="home-pet-status">
-            Your pet is (current), (response)
+            Your pet is {userData?.petMood}
           </div>
 
           {/* Bottom row */}
           <div className="home-bottom-row">
             <div className="home-resource">
               <img src={AppleIcon} alt="Apple" />
-              {petApples}
+              {userData?.apples}
             </div>
 
             <Button
@@ -217,7 +227,7 @@ export function Home() {
 
             <div className="home-resource">
               <img src={BambooIcon} alt="Bamboo" />
-              {petBamboo}
+              {userData?.bamboo}
             </div>
           </div>
 
