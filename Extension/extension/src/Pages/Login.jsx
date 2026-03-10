@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Textbox from '../Components/Textbox';
 import Button from '../Components/Button';
 import Logo from '../assets/redpie_mini_logo.png';
+import { signInWithEmailAndPassword, signInWithPopup, createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { app } from "./firebase";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
@@ -105,7 +107,17 @@ export function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const auth = getAuth(app);
 
+  const HandleLogin=async () =>{
+    try{
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log("Logged in!");
+      navigate('/home');
+    } catch(error) {
+      console.log(error.code);
+    }
+  }
   return (
     <>
       <style>{styles}</style>
@@ -115,7 +127,8 @@ export function Login() {
 
           <div className="login-inner-card">
             <div className="login-inner-title">Log In</div>
-
+            
+            
             <Textbox
               placeholder="Email:"
               value={email}
@@ -135,7 +148,7 @@ export function Login() {
             </div>
           </div>
 
-          <Button onClick={() => navigate('/home')} style={{ fontSize: '12px', padding: '5px 24px' }}>
+          <Button onClick={HandleLogin} style={{ fontSize: '12px', padding: '5px 24px' }}>
             Log in
           </Button>
 

@@ -4,6 +4,11 @@ import Textbox from '../Components/Textbox';
 import Button from '../Components/Button';
 import Logo from '../assets/redpie_mini_logo.png';
 
+import { signInWithEmailAndPassword, signInWithPopup, createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { app } from "./firebase";
+
+import { auth, db } from "./firebase";
+import { doc, setDoc } from "firebase/firestore";
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
 
@@ -63,12 +68,83 @@ const styles = `
     margin-top: 12px;
     opacity: 0.9;
   }
+
+    .social-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 2px;
+  }
+
+  .social-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: bold;
+    transition: transform 0.15s, opacity 0.15s;
+  }
+  .social-btn:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+  .social-btn.google {
+    background: #fff;
+    color: #DB4437;
+  }
+  .social-btn.facebook {
+    background: #1877F2;
+    color: #fff;
+  }
 `;
 
 export function SignUp() {
   const navigate = useNavigate();
+
+  /* Stuff for firebase */
   const [email, setEmail] = useState('');
+  const [username, SetUsername] = useState('');
   const [password, setPassword] = useState('');
+  const[loginError,setLoginError] = useState('');
+  
+/* Initalize a new user into firestore database */
+
+
+  const auth = getAuth(app);
+
+  const HandleSignUp =async () => {
+    try{
+      const userCredential = await createUserWithEmailAndPassword(auth,email,password);
+      const user = userCredential.user;
+      console.log("Sign up successful. Initalizing user.");
+
+      await setDoc(doc(db, "users", user.uid), {
+        username: username,
+        email: email,
+        apples: 0,
+        bamboo: 0,
+        petName: "",
+        petMood: "",
+        petHealth: 100,
+        petHunger: 100,
+        petCleanliness: 100,
+        chores: [],
+        financialGoals: [],
+        expenses: ["", ""],
+        petHeight: 67, /* Little easter egg... */
+      });
+
+      console.log("User initalized. Going to home screen.");
+      navigate('/home');
+    } catch(error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -79,19 +155,26 @@ export function SignUp() {
           <div className="signup-inner-card">
             <div className="signup-inner-title">Sign Up</div>
             <Textbox
-              placeholder="Email:"
+              type="text"
+              value={username}
+              onChange={SetUsername}
+              placeholder="User:"    
+            />
+
+            <Textbox
+              type="text"
               value={email}
               onChange={setEmail}
-              type="email"
+              placeholder="Email:"    
             />
             <Textbox
-              placeholder="Password:"
+              type="password"
               value={password}
               onChange={setPassword}
-              type="password"
+              placeholder="Password:"  
             />
           </div>
-          <Button onClick={() => navigate('/customize')} style={{ fontSize: '12px', padding: '5px 24px' }}>
+          <Button onClick={HandleSignUp} style={{ fontSize: '12px', padding: '5px 24px' }}>
             Sign up
           </Button>
           <Button onClick={() => navigate('/login')} style={{ fontSize: '10px', padding: '5px 12px' }}>
