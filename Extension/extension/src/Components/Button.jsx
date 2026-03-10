@@ -19,7 +19,7 @@ export default function Button({children, bgColor = "c0453a", textColor="#FFFFF"
             border: "none",
             outline: "none",
             borderRadius: "10px",
-            padding: "6x 12px",
+            padding: "0",
 
             fontSize: "22px",
             fontWeight: "700",
