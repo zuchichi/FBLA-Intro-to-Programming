@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PawIcon from '../assets/red_panda_paw.png';
 import Button from '../Components/Button';
+import { useUser } from '../context/UserContext';
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');

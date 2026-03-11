@@ -10,12 +10,11 @@ import { auth, db } from "./firebase"; // adjust path
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 const PERSONALITIES = [
-  '',
-  '',
-  '',
-  '',
-  '',
-  '',
+  'Happy!',
+  'Curious',
+  'Neutral',
+  'Sad',
+  'Upset',
 ]
 
 const styles = `

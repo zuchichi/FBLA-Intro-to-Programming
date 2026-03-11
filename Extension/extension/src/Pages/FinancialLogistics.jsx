@@ -4,6 +4,7 @@ import PawIcon from '../assets/red_panda_paw.png';
 import AppleIcon from '../assets/apple.png';
 import BambooIcon from '../assets/bamboo.png';
 import Button from '../Components/Button';
+import { useUser } from '../context/UserContext';
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
