@@ -153,6 +153,25 @@ export function Marketplace() {
   const petApples = 'nil';
   const petBamboo = 'nil';
 
+  /* Items and prices */
+  const ITEMS = [
+    /* Food */
+    {id: 1, name: 'Energy Drink', price: 10, currency: 'apples', modifier1: 50, modifier2: -15, image: null},
+    {id: 2, name: 'Bamboo Salad', price: 10, currency: 'bamboo', modifier1: 50, image: null},
+
+    /* Items that can help w/ health */
+    {id: 3, name: 'Medkit', price: 50, currency: 'apples', modifier1: 80, image: null},
+    {id: 4, name: 'Bandaid', price: 30, currency: 'apples', modifier1: 45, image: null},
+
+    /* Things for hygenic purposes */
+    {id: 5, name: 'Small bottle of soap', price: 15, currency: 'apples', modifier1: 40, image: null},
+    {id: 6, name: 'Large bottle of soap', price: 25, currency: 'apples', modifier1: 65, image: null},
+
+    /* Fun things */
+    {id: 7, name: '67', price: 67, currency: 'apples', modifier1: 67, image: null}, // This is the worst secret egg I've ever added in my life ..
+    {id: 8, name: 'Random stat change', price: 5, currency: 'apples', modifier1: 1, image: null},
+  ]
+
   const handleBuy = () => {
     // Purchase setup here
   };

@@ -133,6 +133,7 @@ export function SignUp() {
         petHealth: 100,
         petHunger: 45,
         petCleanliness: 100,
+        petEnergy: 100,
         chores: ["Pet your pet 10 times", "Feed your pet", "Buy something from the store"],
         financialGoals: [],
         expenses: ["", ""],

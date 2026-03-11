@@ -199,7 +199,7 @@ export function Home() {
 
           {/* Body text */}
           <div className="home-body-text">
-            After your math session just shortly ago, it seems that your pet picked up on your math &amp; gained the personality trait of studious! Study more math to keep &amp; develop your pets habit!
+            blank for now
             <img src={BookIcon} alt="book" className="home-book-icon" />
           </div>
 
