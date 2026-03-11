@@ -7,6 +7,7 @@ import AppleIcon from '../assets/apple.png';
 import BambooIcon from '../assets/bamboo.png';
 import BookIcon from '../assets/book.png';
 import Button from '../Components/Button';
+import { useUser } from '../context/UserContext';
 
 /* Firebase */
 import { auth, db } from "./firebase"; // adjust path
@@ -164,18 +165,7 @@ const styles = `
 
 export function Home() {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState(null);
-
-  /* Fetch user values */
-  useEffect(() => {
-    const fetchUser = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-      const snap = await getDoc(doc(db, "users", user.uid));
-      if (snap.exists()) setUserData(snap.data());
-    };
-    fetchUser();
-  }, []);
+  const { userData } = useUser();
 
   return (
     <>
