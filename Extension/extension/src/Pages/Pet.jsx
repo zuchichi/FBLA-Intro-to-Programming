@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PawIcon from '../assets/red_panda_paw.png';
 import Button from '../Components/Button';
+import PetIcon from '../assets/red_panda_personal_icon.png'
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
@@ -132,6 +133,7 @@ export function Pet() {
           {/* Caption */}
           <div className="pet-caption">
             Click on {petName} to pet {petPronoun}!
+            <img src={PetIcon} alt="Pet-Icon"/>
           </div>
 
           {/* Button */}
