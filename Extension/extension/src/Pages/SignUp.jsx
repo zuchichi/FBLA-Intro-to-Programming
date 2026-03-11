@@ -126,17 +126,17 @@ export function SignUp() {
       await setDoc(doc(db, "users", user.uid), {
         username: username,
         email: email,
-        apples: 0,
-        bamboo: 0,
+        apples: 50,
+        bamboo: 10,
         petName: "",
-        petMood: "",
+        petMood: "Happy",
         petHealth: 100,
-        petHunger: 100,
+        petHunger: 45,
         petCleanliness: 100,
-        chores: [],
+        chores: ["Pet your pet 10 times", "Feed your pet", "Buy something from the store"],
         financialGoals: [],
         expenses: ["", ""],
-        petHeight: 67, /* Little easter egg... */
+        color: "",
       });
 
       console.log("User initalized. Going to home screen.");

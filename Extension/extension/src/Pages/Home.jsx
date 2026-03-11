@@ -113,7 +113,7 @@ const styles = `
   .home-placeholder-box {
     width: 100%;
     height: 90px;
-    background: #ddd;
+    background: #a52727;
     border-radius: 10px;
     margin-bottom: 10px;
   }
@@ -200,7 +200,7 @@ export function Home() {
             <img src={BookIcon} alt="book" className="home-book-icon" />
           </div>
 
-          {/* Chart placeholder */}
+          {/* Decided against a chart, just going to use values from database instead. */}
           <div className="home-placeholder-box" />
 
           {/* Stats label */}
