@@ -1,4 +1,3 @@
-{/* Important Imports*/}
 import { useState } from 'react'
 import { HashRouter as Router, Routes, Route, Outlet } from 'react-router-dom'
 import { UserProvider } from './context/UserContext'; // Cache
