@@ -116,6 +116,9 @@ const styles = `
     background: #a52727;
     border-radius: 10px;
     margin-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
   }
 
   .home-stats-label {
@@ -125,7 +128,7 @@ const styles = `
     text-align: right;
     width: 100%;
     margin-bottom: 6px;
-    padding-right: 2px;
+    padding-right: 50px;
   }
 
   .home-pet-status {
@@ -201,15 +204,14 @@ export function Home() {
           </div>
 
           {/* Decided against a chart, just going to use values from database instead. */}
-          <div className="home-placeholder-box" />
+          <div className="home-placeholder-box">
+            Pet mood: {userData?.petMood}<br/>
+            Pet hunger: {userData?.petHunger}<br/>
+            Pet Cleanliness: {userData?.petCleanliness}
+          </div>
 
           {/* Stats label */}
           <div className="home-stats-label">Pets Stats for Today ^</div>
-
-          {/* Pet status */}
-          <div className="home-pet-status">
-            Your pet is {userData?.petMood}
-          </div>
 
           {/* Bottom row */}
           <div className="home-bottom-row">
