@@ -166,6 +166,8 @@ const styles = `
 export function Home() {
   const navigate = useNavigate();
   const { userData } = useUser();
+  console.log(userData);
+  const RESPONSES = [] // Will work on this later ...
 
   return (
     <>
@@ -184,7 +186,7 @@ export function Home() {
 
           {/* Subtitle */}
           <div className="home-subtitle">
-            {userData?.petName} is currently feeling {userData?.mood} today!
+            {userData?.petName} is currently feeling {userData?.petMood?.toLowerCase()} today!
           </div>
 
           {/* Body text */}
@@ -194,10 +196,11 @@ export function Home() {
           </div>
 
           {/* Decided against a chart, just going to use values from database instead. */}
-          <div className="home-placeholder-box">
+          <div className="home-placeholder-box" style={{fontSize: "10px", fontWeight: "700"}}>
             Pet mood: {userData?.petMood}<br/>
             Pet hunger: {userData?.petHunger}<br/>
-            Pet Cleanliness: {userData?.petCleanliness}
+            Pet Cleanliness: {userData?.petCleanliness}<br/>
+            Pet Energy: {userData?.petEnergy}
           </div>
 
           {/* Stats label */}

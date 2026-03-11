@@ -3,11 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import PawIcon from '../assets/red_panda_paw.png';
 import Button from '../Components/Button';
 import PersonalPetIcon from '../assets/red_panda_personal_icon.png';
-
+import { useUser } from '../context/UserContext';
 
 /* Firebase */
 import { auth, db } from "./firebase"; // adjust path
-import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 const PERSONALITIES = [
   'Happy!',
@@ -200,11 +199,13 @@ const styles = `
 const MISC_OPTIONS = ['pet-color', 'pet-personality'];
 
 export function Customize() {
+  console.log('userData:', userData);
+  console.log('petName state:', petName);
   const navigate = useNavigate();
   const [selected, setSelected] = useState(null);
 
   /* This will be important for firebase later */
-  const [userData, setUserData] = useState(null);
+  const { userData } = useUser();
   const [petName, setPetName] = useState('');
 
   const [editingName, setEditingName] = useState(false);
@@ -214,23 +215,6 @@ export function Customize() {
 
   /* Personality variable */
   const [petPersonality, setPetPersonality] = useState('');
-
-  /* Fetch user values */
-  useEffect(() => {
-    const fetchUser = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-      const snap = await getDoc(doc(db, "users", user.uid));
-      if (snap.exists()) {
-        const data = snap.data();
-        setUserData(data);
-        setPetName(data.petName || '');
-        setPetHue(data.petHue || 0);
-        setPetPersonality(data.petPersonality || '');
-      }
-    };
-    fetchUser();
-  }, []);
 
   const handleSubmit = async () => {
     try {
@@ -247,6 +231,14 @@ export function Customize() {
     console.log(error);
   }
   };
+
+  useEffect(() => {
+  if (userData) {
+    setPetName(userData.petName || '');
+    setPetHue(userData.petHue || 0);
+    setPetPersonality(userData.petPersonality || '');
+  }
+  }, [userData]);
 
   return (
     <>
