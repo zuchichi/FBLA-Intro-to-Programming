@@ -191,7 +191,7 @@ export function Home() {
 
           {/* Body text */}
           <div className="home-body-text">
-            blank for now
+            {userData?.petNote}
             <img src={BookIcon} alt="book" className="home-book-icon" />
           </div>
 

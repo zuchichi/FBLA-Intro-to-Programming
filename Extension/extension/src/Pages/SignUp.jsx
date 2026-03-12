@@ -138,6 +138,7 @@ export function SignUp() {
         financialGoals: [],
         expenses: ["", ""],
         color: "",
+        petNote: 'Your pet is feeling excited today! Go ahead and complete your chores to earn rewards for your pet!'
       });
 
       console.log("User initalized. Going to home screen.");
