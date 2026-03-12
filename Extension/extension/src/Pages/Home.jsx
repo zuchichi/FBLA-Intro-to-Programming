@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect }from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import PawIcon from '../assets/red_panda_paw.png';
@@ -9,10 +9,9 @@ import BookIcon from '../assets/book.png';
 import Button from '../Components/Button';
 import { useUser } from '../context/UserContext';
 
-/* Firebase */
-import { auth, db } from "./firebase"; // adjust path
+// For firebase
+import { auth, db } from "./firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
@@ -164,10 +163,21 @@ const styles = `
 `;
 
 export function Home() {
+  
   const navigate = useNavigate();
-  const { userData } = useUser();
+  const [userData, setUserData] = useState(null);
   console.log(userData);
   const RESPONSES = [] // Will work on this later ...
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (snap.exists()) setUserData(snap.data());
+    };
+    fetchUser();
+  }, []);
 
   return (
     <>
@@ -192,7 +202,6 @@ export function Home() {
           {/* Body text */}
           <div className="home-body-text">
             {userData?.petNote}
-            <img src={BookIcon} alt="book" className="home-book-icon" />
           </div>
 
           {/* Decided against a chart, just going to use values from database instead. */}

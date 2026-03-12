@@ -5,16 +5,24 @@ import Button from '../Components/Button';
 import PersonalPetIcon from '../assets/red_panda_personal_icon.png';
 import { useUser } from '../context/UserContext';
 
+
 /* Firebase */
 import { auth, db } from "./firebase"; // adjust path
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 const PERSONALITIES = [
-  'Happy!',
-  'Curious',
-  'Neutral',
-  'Sad',
-  'Upset',
+  'Extroverted',
+  'Introverted',
+  'Playful',
+  'Calm',
 ]
+
+const GENDERS = [
+  'Male',
+  'Female',
+  'Non-binary',
+];
+ 
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
@@ -81,7 +89,20 @@ const styles = `
     line-height: 1.3;
   }
   
-   .customize-name-input::placeholder { color: rgba(255,255,255,0.5); }
+   .customize-name-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #fff;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  font-family: 'Nunito', sans-serif;
+  text-align: center;
+  outline: none;
+  margin-bottom: 6px;
+}
 
   .customize-subtitle {
     font-size: 10px;
@@ -151,6 +172,7 @@ const styles = `
     flex-direction: column;
     gap: 2px;
     padding-top: 2px;
+    box-sizing: border-box;
   }
 
   .customize-pet-name {
@@ -179,14 +201,17 @@ const styles = `
     padding: 2px 4px;
     border-radius: 4px;
     cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.15);
     transition: background 0.15s, color 0.15s;
   }
   .customize-option:hover {
     background: rgba(190, 55, 55, 0.1);
+    font-size: 12px;
   }
   .customize-option.selected {
-    color: rgb(190, 55, 55);
+    border: 2px solid #fff;
     font-weight: 800;
+    font-size: 12px;
   }
 
   .customize-bottom {
@@ -199,13 +224,12 @@ const styles = `
 const MISC_OPTIONS = ['pet-color', 'pet-personality'];
 
 export function Customize() {
-  console.log('userData:', userData);
-  console.log('petName state:', petName);
   const navigate = useNavigate();
   const [selected, setSelected] = useState(null);
 
   /* This will be important for firebase later */
-  const { userData } = useUser();
+  const [userData, setUserData] = useState(null);
+  const [petGender, setPetGender] = useState('');
   const [petName, setPetName] = useState('');
 
   const [editingName, setEditingName] = useState(false);
@@ -216,29 +240,39 @@ export function Customize() {
   /* Personality variable */
   const [petPersonality, setPetPersonality] = useState('');
 
-  const handleSubmit = async () => {
-    try {
+  /* Fetch user values */
+  useEffect(() => {
+    const fetchUser = async () => {
       const user = auth.currentUser;
       if (!user) return;
-      await updateDoc(doc(db, "users", user.uid), {
-        petName,
-        petHue,
-        petPersonality,
-      });
-      console.log("Profile Saved!");
-      navigate('/home');
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (snap.exists()) {
+        const data = snap.data();
+        console.log('Fetched data:', data);
+        setUserData(data);
+        setPetName(data.petName || '');
+        setPetGender(data.petGender === 'null' ? '' : data.petGender || '');
+        setPetPersonality(data.petPersonality === 'null' ? '' : data.petPersonality || '');
+      }
+    };
+    fetchUser();
+  }, []);
+
+ 
+const handleSubmit = async () => {
+  try {
+    const user = auth.currentUser;
+    if (!user) return;
+    await updateDoc(doc(db, "users", user.uid), {
+      petName,
+      petPersonality,
+      petGender,
+    });
+    navigate('/home');
   } catch (error) {
     console.log(error);
   }
-  };
-
-  useEffect(() => {
-  if (userData) {
-    setPetName(userData.petName || '');
-    setPetHue(userData.petHue || 0);
-    setPetPersonality(userData.petPersonality || '');
-  }
-  }, [userData]);
+};
 
   return (
     <>
@@ -254,7 +288,7 @@ export function Customize() {
             <div className="customize-heading">
               <div className="customize-title">Hi {userData?.username}!</div>
               <div className="customize-subtitle">
-                How would you like to customize<br />({userData?.petName} today?)
+                Let's customize your new pet! Go ahead and edit their values & give them a name!
               </div>
             </div>
             <div className="customize-spacer" />
@@ -274,63 +308,56 @@ export function Customize() {
                 }}/>
 
           <div className="customize-options">
+                <div className="customize-pet-name">
+                  {editingName ? (
+                    <input
+                      autoFocus
+                      className="customize-name-input"
+                      value={petName}
+                      onChange={(e) => setPetName(e.target.value)}
+                      onBlur={() => setEditingName(false)}
+                      onKeyDown={(e) => e.key === 'Enter' && setEditingName(false)}
+                      placeholder="Enter pet name..."
+                    />
+                  ) : (
+                    <div className="customize-pet-name" onClick={() => setEditingName(true)}>
+                      {petName || "What's your pet's name?"}
+                    </div>
+                  )}
 
-              {editingName ? (
-                <input
-                  autoFocus
-                  className="customize-name-input"
-                  value={petName}
-                  onChange={(e) => setPetName(e.target.value)}
-                  onBlur={() => setEditingName(false)}
-                  onKeyDown={(e) => e.key === 'Enter' && setEditingName(false)}
-                  placeholder="Enter pet name..."
-                />
-              ) : (
-                <div className="customize-pet-name" onClick={() => setEditingName(true)}>
-                  {petName || "What's your pet's name?"}
                 </div>
-              )}
-              
+
+              {/* Attributes */}
               <div className="customize-section-title">Attributes</div>
+              <div className="customize-section-title">Gender</div>
               
-              <div className="customize-color-row">
-                <span className="customize-color-label">pet-color</span>
-                <input
-                  type="color"
-                  className="customize-color-input"
-                  title="Pick a color"
-                  onChange={(e) => {
-                    /* Convert hex color to hue degrees (awful awful evil thing to do oh my god) */
-                    const hex = e.target.value;
-                    const r = parseInt(hex.slice(1,3),16)/255;
-                    const g = parseInt(hex.slice(3,5),16)/255;
-                    const b = parseInt(hex.slice(5,7),16)/255;
-                    const max = Math.max(r,g,b), min = Math.min(r,g,b);
-                    let h = 0;
-                    if (max !== min) {
-                      const d = max - min;
-                      if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
-                      else if (max === g) h = ((b - r) / d + 2) / 6;
-                      else h = ((r - g) / d + 4) / 6;
-                    }
-                    setPetHue(Math.round(h * 360));
-                  }}
-                />
-              </div>
-
-        <div className="customize-color-label" style={{ marginBottom: '3px', marginTop: '6px' }}>pet-personality</div>
-        {PERSONALITIES.map((p, i) => (
-          <div
-            key={i}
-            className={`customize-personality-option ${petPersonality === p ? 'selected' : ''}`}
-            onClick={() => setPetPersonality(p)}
-          >
-            {p || `Option ${i + 1}`}
-          </div>
-        ))}
-
+              {/* Gender */}
+              <div className="customize-section-title">pet-gender</div>
+              {GENDERS.map((g, i) => (
+                <div
+                  key={i}
+                  className={`customize-option ${petGender === g ? 'selected' : ''}`}
+                  onClick={() => setPetGender(g)}
+                >
+                  {g}
+                </div>
+              ))}
+ 
+              {/* Personality */}
+              <div className="customize-section-title">Personality</div>
+              {PERSONALITIES.map((p, i) => (
+                <div
+                  key={i}
+                  className={`customize-option ${petPersonality === p ? 'selected' : ''}`}
+                  onClick={() => setPetPersonality(p)}
+                >
+                  {p}
+                </div>
+              ))}
+ 
             </div>
           </div>
+
 
           {/* Submit */}
           <div className="customize-bottom">
@@ -345,5 +372,4 @@ export function Customize() {
         </div>
       </div>
     </>
-  );
-}
+  )};
