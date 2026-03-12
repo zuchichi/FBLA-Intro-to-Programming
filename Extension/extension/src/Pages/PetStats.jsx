@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import PawIcon from '../assets/red_panda_paw.png';
+import PetIcon from '../assets/red_panda_personal_icon.png';
 import AppleIcon from '../assets/apple.png';
 import BambooIcon from '../assets/bamboo.png';
 import Button from '../Components/Button';
-import { useUser } from '../context/UserContext';
+
+// For firebase
+import { auth, db } from "./firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
@@ -101,7 +106,6 @@ const styles = `
   .petstats-placeholder {
     width: 120px;
     height: 110px;
-    background: #ddd;
     border-radius: 12px;
     margin-bottom: 14px;
   }
@@ -143,9 +147,22 @@ const styles = `
 
 export function PetStats() {
   const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
 
-  const petApples = 'nil';
-  const petBamboo = 'nil';
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (snap.exists()) setUserData(snap.data());
+    };
+    fetchUser();
+  }, []);
+
+  const petApples = userData?.apples
+  const petBamboo = userData?.bamboo
+
+
 
   return (
     <>
@@ -172,25 +189,27 @@ export function PetStats() {
           </div>
 
           {/* Pet image placeholder */}
-          <div className="petstats-placeholder" />
+          <div className="petstats-placeholder">
+            <img src={PetIcon} alt="pet-icon" /> 
+          </div>
 
           {/* Stats list */}
           <div className="petstats-stats-list">
             <div className="petstats-stat-row">
               <div className="petstats-dot" />
-              Pet's Mood:
+              Pet's Mood: {userData?.petMood}
             </div>
             <div className="petstats-stat-row">
               <div className="petstats-dot" />
-              Pet's Cleanliness:
+              Pet's Cleanliness: {userData?.petCleanliness}
             </div>
             <div className="petstats-stat-row">
               <div className="petstats-dot" />
-              Pet's Hunger:
+              Pet's Hunger: {userData?.petHunger}
             </div>
             <div className="petstats-stat-row">
               <div className="petstats-dot" />
-              Pet's Health:
+              Pet's Health: {userData?.petHealth}
             </div>
           </div>
 

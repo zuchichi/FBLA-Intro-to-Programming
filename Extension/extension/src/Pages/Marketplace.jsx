@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import PawIcon from '../assets/red_panda_paw.png';
 import AppleIcon from '../assets/apple.png';
 import BambooIcon from '../assets/bamboo.png';
 import Button from '../Components/Button';
+
+/* Image imports for all the items */
+import EnergyDrinkIcon from '../assets/energy-drink.png';
+import MedKitIcon from '../assets/medkit.png';
+import BandAidIcon from '../assets/bandaid.png';
+import MysteryStatIcon from '../assets/question_mark.png';
+import SaladIcon from '../assets/salad.png';
+import SixSevenIcon from '../assets/67.png';
+import SmallSoapIcon from '../assets/small_soap.png';
+import LargeSoapIcon from '../assets/large_soap.png';
+
+
 import { useUser } from '../context/UserContext';
+
+// For firebase
+import { auth, db } from "./firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
@@ -151,22 +168,34 @@ const Shelf = ({ onBuy }) => (
 export function Marketplace() {
   const navigate = useNavigate();
 
-  const petApples = 'nil';
-  const petBamboo = 'nil';
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (snap.exists()) setUserData(snap.data());
+    };
+    fetchUser();
+  }, []);
+
+  const petApples = userData?.apples
+  const petBamboo = userData?.bamboo
 
   /* Items and prices */
   const ITEMS = [
     /* Food */
-    {id: 1, name: 'Energy Drink', price: 10, currency: 'apples', modifier1: 50, modifier2: -15, image: null},
-    {id: 2, name: 'Bamboo Salad', price: 10, currency: 'bamboo', modifier1: 50, image: null},
+    {id: 1, name: 'Energy Drink', price: 10, currency: 'apples', modifier1: 50, modifier2: -15, image: EnergyDrinkIcon},
+    {id: 2, name: 'Bamboo Salad', price: 10, currency: 'bamboo', modifier1: 50, image: SaladIcon},
 
     /* Items that can help w/ health */
-    {id: 3, name: 'Medkit', price: 50, currency: 'apples', modifier1: 80, image: null},
-    {id: 4, name: 'Bandaid', price: 30, currency: 'apples', modifier1: 45, image: null},
+    {id: 3, name: 'Medkit', price: 50, currency: 'apples', modifier1: 80, image: MedKitIcon},
+    {id: 4, name: 'Bandaid', price: 30, currency: 'apples', modifier1: 45, image: BandAidIcon},
 
     /* Things for hygenic purposes */
-    {id: 5, name: 'Small bottle of soap', price: 15, currency: 'apples', modifier1: 40, image: null},
-    {id: 6, name: 'Large bottle of soap', price: 25, currency: 'apples', modifier1: 65, image: null},
+    {id: 5, name: 'Small bottle of soap', price: 15, currency: 'apples', modifier1: 40, image: SmallSoapIcon},
+    {id: 6, name: 'Large bottle of soap', price: 25, currency: 'apples', modifier1: 65, image: LargeSoapIcon},
 
     /* Fun things */
     {id: 7, name: '67', price: 67, currency: 'apples', modifier1: 67, image: null}, // This is the worst secret egg I've ever added in my life ..
@@ -203,7 +232,11 @@ export function Marketplace() {
 
           {/* 2x2 shelf grid */}
           <div className="market-grid">
-            <Shelf onBuy={handleBuy} />
+            <Shelf onBuy={handleBuy}>
+              <ShelfItem>
+                sss
+              </ShelfItem>
+            </Shelf>
             <Shelf onBuy={handleBuy} />
             <Shelf onBuy={handleBuy} />
             <Shelf onBuy={handleBuy} />
