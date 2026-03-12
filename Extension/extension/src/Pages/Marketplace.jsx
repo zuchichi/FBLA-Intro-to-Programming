@@ -198,8 +198,8 @@ export function Marketplace() {
     {id: 6, name: 'Large bottle of soap', price: 25, currency: 'apples', modifier1: 65, image: LargeSoapIcon},
 
     /* Fun things */
-    {id: 7, name: '67', price: 67, currency: 'apples', modifier1: 67, image: null}, // This is the worst secret egg I've ever added in my life ..
-    {id: 8, name: 'Random stat change', price: 5, currency: 'apples', modifier1: 1, image: null},
+    {id: 7, name: '67', price: 67, currency: 'apples', modifier1: 67, image: SixSevenIcon}, // This is the worst secret egg I've ever added in my life ..
+    {id: 8, name: 'Random stat change', price: 5, currency: 'apples', modifier1: 1, image: MysteryStatIcon},
   ]
 
   const handleBuy = () => {
