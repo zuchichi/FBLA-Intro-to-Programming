@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PawIcon from '../assets/red_panda_paw.png';
 import Button from '../Components/Button';
 import PetIcon from '../assets/red_panda_personal_icon.png'
-import { useUser } from '../context/UserContext';
+
+// For firebase
+import { auth, db } from "./firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
@@ -67,6 +70,15 @@ const styles = `
     line-height: 1.3;
   }
 
+  .pet-header {
+    font-size: 15px;
+    font-weight: 900;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    flex: 1;
+    line-height: 1.3;
+  }
+
   .pet-spacer {
     width: 28px;
     flex-shrink: 0;
@@ -107,10 +119,22 @@ export function Pet() {
 
   // I'll configure most of this when I setup the database (will be within the few upcoming days)
   const petName = '(pet-name)';
+  const [userData, setUserData] = useState(null);
   const petPronoun = '(pronoun)';
+  const [clicks, setClicks] = useState(0);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (snap.exists()) setUserData(snap.data());
+    };
+    fetchUser();
+  }, []);
 
   const handlePet = () => {
-    // Pet interaction
+    
   };
 
   return (
@@ -124,7 +148,7 @@ export function Pet() {
             <button className="pet-paw-btn" onClick={() => navigate('/petstats')} title="Back to Home">
               <img src={PawIcon} alt="Back" />
             </button>
-            <div className="pet-title">Say hi to {petName}!</div>
+            <div className="pet-title">Say hi to {userData?.petName}!</div>
             <div className="pet-spacer" />
           </div>
 
@@ -133,8 +157,8 @@ export function Pet() {
 
           {/* Caption */}
           <div className="pet-caption">
-            Click on {petName} to pet {petPronoun}!
-            <img src={PetIcon} alt="Pet-Icon"/>
+            Click on {userData?.petName} to pet them!
+            <img src={PetIcon} alt="Pet-Icon" onClick={() => setClicks(prev => prev + 1)}/>
           </div>
 
           {/* Button */}
@@ -144,6 +168,9 @@ export function Pet() {
           >
             Go to Home
           </Button>
+          <div className="pet-header">
+            You have pet {userData?.petName} {clicks} times!
+          </div>
 
         </div>
       </div>

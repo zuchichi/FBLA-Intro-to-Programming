@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import PawIcon from '../assets/red_panda_paw.png';
 import AppleIcon from '../assets/apple.png';
 import BambooIcon from '../assets/bamboo.png';
 import Button from '../Components/Button';
-import { useUser } from '../context/UserContext';
+
+// For firebase
+import { auth, db } from "./firebase";
+import { doc, getDoc, updateDoc, onSnapshot } from "firebase/firestore";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
@@ -197,8 +201,21 @@ const styles = `
 export function FinancialLogistics() {
   const navigate = useNavigate();
 
-  const currentApples = 'nil';
-  const currentBamboo = 'nil';
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (snap.exists()) setUserData(snap.data());
+    };
+    fetchUser();
+  }, []);
+
+
+  const currentApples = userData?.apples
+  const currentBamboo = userData?.bamboo
   const expense1 = 'nil';
   const expense2 = 'nil';
 

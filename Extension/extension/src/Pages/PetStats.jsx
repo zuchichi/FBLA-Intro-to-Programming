@@ -225,7 +225,7 @@ export function PetStats() {
               Your Financial Logistics
             </Button>
             <Button onClick={() => navigate('/pet')} style={{ fontSize: '10px', padding: '4px 14px' }}>
-              Play with Pet!
+              Pet Duties
             </Button>
             <Button onClick={() => navigate('/customize')} style={{ fontSize: '10px', padding: '4px 14px' }}>
               Customize Pet

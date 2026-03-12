@@ -7,7 +7,6 @@ import AppleIcon from '../assets/apple.png';
 import BambooIcon from '../assets/bamboo.png';
 import BookIcon from '../assets/book.png';
 import Button from '../Components/Button';
-import { useUser } from '../context/UserContext';
 
 // For firebase
 import { auth, db } from "./firebase";
@@ -196,7 +195,7 @@ export function Home() {
 
           {/* Subtitle */}
           <div className="home-subtitle">
-            {userData?.petName} is currently feeling {userData?.petMood?.toLowerCase()} today!
+            {userData?.petName} is currently feeling {typeof userData?.petMood === 'string' ? userData.petMood.toLowerCase() : userData?.petMood} today!
           </div>
 
           {/* Body text */}

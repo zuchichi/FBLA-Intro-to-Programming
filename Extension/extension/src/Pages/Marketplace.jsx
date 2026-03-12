@@ -16,12 +16,9 @@ import SixSevenIcon from '../assets/67.png';
 import SmallSoapIcon from '../assets/small_soap.png';
 import LargeSoapIcon from '../assets/large_soap.png';
 
-
-import { useUser } from '../context/UserContext';
-
 // For firebase
 import { auth, db } from "./firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, onSnapshot } from "firebase/firestore";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
@@ -151,10 +148,9 @@ const styles = `
   }
 `;
 
-const ShelfItem = ({ onBuy }) => (
-  <div className="market-item" onClick={onBuy}>
-    {/* Replace this div with <img> when I get the item images*/}
-    <div className="market-item-img" />
+const ShelfItem = ({ item, onBuy }) => (
+  <div className="market-item" onClick={() => onBuy(item)} title={`${item.name} - ${item.price} ${item.currency}`}>
+    <img src={item.image} className="market-item-img" alt={item.name} style={{ opacity: 1 }} />
   </div>
 );
 
@@ -185,33 +181,48 @@ export function Marketplace() {
 
   /* Items and prices */
   const ITEMS = [
-    /* Food */
-    {id: 1, name: 'Energy Drink', price: 10, currency: 'apples', modifier1: 50, modifier2: -15, image: EnergyDrinkIcon},
-    {id: 2, name: 'Bamboo Salad', price: 10, currency: 'bamboo', modifier1: 50, image: SaladIcon},
+    { id: 1, name: 'Energy Drink', price: 10, currency: 'apples', effects: { petEnergy: 50, petHunger: -15 }, image: EnergyDrinkIcon },
+    { id: 2, name: 'Bamboo Salad', price: 10, currency: 'bamboo', effects: { petHunger: -50 }, image: SaladIcon },
+    { id: 3, name: 'Medkit', price: 50, currency: 'apples', effects: { petHealth: 80 }, image: MedKitIcon },
+    { id: 4, name: 'Bandaid', price: 30, currency: 'apples', effects: { petHealth: 45 }, image: BandAidIcon },
+    { id: 5, name: 'Small bar of soap', price: 15, currency: 'apples', effects: { petCleanliness: 40 }, image: SmallSoapIcon },
+    { id: 6, name: 'Large bottle of soap', price: 25, currency: 'apples', effects: { petCleanliness: 65 }, image: LargeSoapIcon },
+    { id: 7, name: '67', price: 67, currency: 'apples', effects: {petCleanliness: -67}, image: SixSevenIcon }, // This is the dumbest easter egg I've ever added in my life I'm truly contemplating this
+    { id: 8, name: 'Random stat change', price: 5, currency: 'apples', effects: { petCleanliness: Math.floor(Math.random() * 40) - 20 }, image: MysteryStatIcon },
+  ];
 
-    /* Items that can help w/ health */
-    {id: 3, name: 'Medkit', price: 50, currency: 'apples', modifier1: 80, image: MedKitIcon},
-    {id: 4, name: 'Bandaid', price: 30, currency: 'apples', modifier1: 45, image: BandAidIcon},
 
-    /* Things for hygenic purposes */
-    {id: 5, name: 'Small bottle of soap', price: 15, currency: 'apples', modifier1: 40, image: SmallSoapIcon},
-    {id: 6, name: 'Large bottle of soap', price: 25, currency: 'apples', modifier1: 65, image: LargeSoapIcon},
+  const [errorMsg, setErrorMsg] = useState('');
+  const handleBuy = async (item) => {
+    const user = auth.currentUser;
+    if (!user) return;
 
-    /* Fun things */
-    {id: 7, name: '67', price: 67, currency: 'apples', modifier1: 67, image: SixSevenIcon}, // This is the worst secret egg I've ever added in my life ..
-    {id: 8, name: 'Random stat change', price: 5, currency: 'apples', modifier1: 1, image: MysteryStatIcon},
-  ]
+    const currentBalance = userData?.[item.currency] ?? 0;
+    if (currentBalance < item.price) {
+      setErrorMsg(`Not enough ${item.currency} to buy ${item.name}!`);
+      setTimeout(() => setErrorMsg(''), 3000);
+      return;
+    }
 
-  const handleBuy = () => {
-    // Purchase setup here
+    const updates = { [item.currency]: currentBalance - item.price };
+    for (const [stat, delta] of Object.entries(item.effects)) {
+      const current = userData?.[stat] ?? 0;
+      updates[stat] = Math.min(100, Math.max(0, current + delta));
+    }
+
+    await updateDoc(doc(db, "users", user.uid), updates);
+    setUserData(prev => ({ ...prev, ...updates }));
+    setErrorMsg(`Bought ${item.name}!`);
+    setTimeout(() => setErrorMsg(''), 3000);
   };
 
+
+  
   return (
     <>
       <style>{styles}</style>
       <div className="market-page">
         <div className="market-card">
-
           {/* Top row */}
           <div className="market-top-row">
             <button className="market-paw-btn" onClick={() => navigate('/petstats')} title="Back to Home">
@@ -230,16 +241,21 @@ export function Marketplace() {
             </div>
           </div>
 
-          {/* 2x2 shelf grid */}
+          {errorMsg && (
+            <div style={{ color: '#fff', fontSize: '10px', fontWeight: '800', marginBottom: '8px', textAlign: 'center' }}>
+              {errorMsg}
+            </div>
+          )}
+
+          {/* 2x2 Shelf grid */}
           <div className="market-grid">
-            <Shelf onBuy={handleBuy}>
-              <ShelfItem>
-                sss
-              </ShelfItem>
-            </Shelf>
-            <Shelf onBuy={handleBuy} />
-            <Shelf onBuy={handleBuy} />
-            <Shelf onBuy={handleBuy} />
+            {Array.from({ length: 4 }).map((_, shelfIdx) => (
+              <div key={shelfIdx} className="market-shelf">
+                {ITEMS.slice(shelfIdx * 2, shelfIdx * 2 + 2).map(item => (
+                  <ShelfItem key={item.id} item={item} onBuy={handleBuy} />
+                ))}
+              </div>
+            ))}
           </div>
 
           {/* Bottom buttons */}
