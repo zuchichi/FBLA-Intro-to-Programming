@@ -110,7 +110,7 @@ export function SignUp() {
   const [email, setEmail] = useState('');
   const [username, SetUsername] = useState('');
   const [password, setPassword] = useState('');
-  const[loginError,setLoginError] = useState('');
+  const [loginError,setLoginError] = useState('');
   
 /* Initalize a new user into firestore database */
 
@@ -130,14 +130,13 @@ export function SignUp() {
         bamboo: 10,
         petName: "",
         petMood: "Happy",
-        petHealth: 100,
+        petHealth: 65,
         petHunger: 45,
-        petCleanliness: 100,
-        petEnergy: 100,
+        petCleanliness: 35,
+        petEnergy: 55,
         chores: ["Pet your pet 10 times", "Feed your pet", "Buy something from the store"],
-        financialGoals: [],
-        expenses: ["", ""],
-        color: "",
+        financialGoals: [" Reach over 100 apples", "Reach over 100 bamboo"],
+        expenses: ["Care for pet: 50 apples", "Buy an item for pet: 10-50 apples"],
         petNote: 'Your pet is feeling excited today! Go ahead and complete your chores to earn rewards for your pet!',
         petGender: 'null',
         petPersonality: 'null'

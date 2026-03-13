@@ -211,11 +211,59 @@ export function Marketplace() {
     }
 
     await updateDoc(doc(db, "users", user.uid), updates);
-    setUserData(prev => ({ ...prev, ...updates }));
+    const newData = { ...userData, ...updates };
+    const checkedData = await checkPetStatus(newData);
+    setUserData(checkedData);
     setErrorMsg(`Bought ${item.name}!`);
     setTimeout(() => setErrorMsg(''), 3000);
   };
 
+  const checkPetStatus = async (data) => {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  let petMood = data.petMood;
+  let petNote = data.petNote;
+
+  // Hunger checks (high hunger = hungry)
+  if (data.petHunger > 50) {
+    petMood = 'Sad';
+    petNote = "Your pet is hungry! Feed them soon.";
+  }
+
+  // Cleanliness checks
+  if (data.petCleanliness < 35) {
+    petMood = 'Uncomfortable';
+    petNote = "It seems like your pet is dirty, oh no! Go ahead and visit the marketplace to buy your pet some soap to clean them!";
+  }
+
+  // Energy checks
+  if (data.petEnergy < 20) {
+    petMood = 'Tired';
+    petNote = "Your pet's awfully tired! Go buy an energy drink to help with their energy from the marketplace!";
+  }
+
+  // Health checks
+  if (data.petHealth < 30) {
+    petMood = 'Sick';
+    petNote = "Uh oh! Your pet is sick! Go to the marketplace to help them heal up, or feed them some food to help cure their sickness!";
+  }
+
+  // Summary is just that if your pet is doing well, then.. well they'll be doing well.
+  if (data.petHunger <= 30 && data.petCleanliness >= 60 && data.petEnergy >= 50 && data.petHealth >= 70) {
+    petMood = 'Happy';
+    petNote = "Your pet is doing great today!";
+  }
+
+  // Only update if something changed
+  if (petMood !== data.petMood || petNote !== data.petNote) {
+    const moodUpdates = { petMood, petNote };
+    await updateDoc(doc(db, "users", user.uid), moodUpdates);
+    return { ...data, ...moodUpdates };
+  }
+
+  return data;
+};
 
   
   return (
@@ -260,19 +308,6 @@ export function Marketplace() {
 
           {/* Bottom buttons */}
           <div className="market-bottom-row">
-            <Button
-              onClick={handleBuy}
-              style={{ fontSize: '11px', padding: '4px 16px' }}
-            >
-              Sell
-            </Button>
-            <Button
-              onClick={handleBuy}
-              bgColor="#4caf50"
-              style={{ fontSize: '10px', padding: '4px 12px' }}
-            >
-              Purchase
-            </Button>
           </div>
 
         </div>

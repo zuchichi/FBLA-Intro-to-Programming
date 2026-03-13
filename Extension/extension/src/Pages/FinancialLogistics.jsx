@@ -251,7 +251,7 @@ export function FinancialLogistics() {
             {/* Left: current balances */}
             <div className="finance-col-left">
               <div>
-                <div className="finance-label">Current<br />Apples: ({currentApples})</div>
+                <div className="finance-label">Current:<br />Apples: ({currentApples})</div>
               </div>
               <div>
                 <div className="finance-label">Current<br />Bamboo: ({currentBamboo})</div>
@@ -263,11 +263,11 @@ export function FinancialLogistics() {
               <div className="finance-expenses-title">Expenses:</div>
               <div className="finance-expense-row">
                 <div className="finance-expense-label">Expense 1:</div>
-                <div className="finance-expense-value">{expense1}</div>
+                <div className="finance-expense-value">{userData?.expenses?.[0]}</div>
               </div>
               <div className="finance-expense-row">
                 <div className="finance-expense-label">Expense 2:</div>
-                <div className="finance-expense-value">{expense2}</div>
+                <div className="finance-expense-value">{userData?.expenses?.[1]}</div>
               </div>
             </div>
           </div>
@@ -278,13 +278,15 @@ export function FinancialLogistics() {
           {/* Goals section */}
           <div className="finance-goals-title">Your Current<br />Goals</div>
           <div className="finance-goals-list">
-            {goals.map((goal, i) => (
-              <div className="finance-goal-row" key={i}>
-                <div className="finance-goal-dot" />
-                <div className="finance-goal-text">{goal || ''}</div>
+          {[0, 1].map((i) => (
+            <div className="finance-goal-row" key={i}>
+              <div className="finance-goal-dot" />
+              <div className="finance-goal-text">
+                {userData?.financialGoals?.[i] || 'Goal: '}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
 
         </div>
       </div>

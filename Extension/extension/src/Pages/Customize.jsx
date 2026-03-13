@@ -329,10 +329,10 @@ const handleSubmit = async () => {
 
               {/* Attributes */}
               <div className="customize-section-title">Attributes</div>
-              <div className="customize-section-title">Gender</div>
               
               {/* Gender */}
-              <div className="customize-section-title">pet-gender</div>
+              <br/>
+              <div className="customize-section-title">Gender</div>
               {GENDERS.map((g, i) => (
                 <div
                   key={i}

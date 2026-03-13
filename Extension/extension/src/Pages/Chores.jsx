@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PawIcon from '../assets/red_panda_paw.png';
 import Button from '../Components/Button';
-import { useUser } from '../context/UserContext';
+import BadgeIcon from '../assets/badge.png';
+import ChecklistIcon from '../assets/checklist.png';
+
+// For firebase
+import { auth, db } from "./firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
@@ -76,7 +81,6 @@ const styles = `
   .chores-banner-img {
     width: 75px;
     height: 70px;
-    background: #ddd;
     border-radius: 10px;
     flex-shrink: 0;
     object-fit: cover;
@@ -140,7 +144,6 @@ const styles = `
   .chore-reward {
     width: 28px;
     height: 14px;
-    background: #ccc;
     border-radius: 4px;
     flex-shrink: 0;
   }
@@ -152,16 +155,28 @@ const styles = `
   }
 `;
 
-const CHORES = [
-  { id: 1, label: 'chore-here' },
-  { id: 2, label: 'chore-here' },
-  { id: 3, label: 'chore-here' },
-  { id: 4, label: 'chore-here' },
-];
-
 export function Chores() {
   const navigate = useNavigate();
   const [checked, setChecked] = useState({});
+  
+  const [userData, setUserData] = useState(null);
+
+
+  const CHORES = userData ? [
+    { id: 0, label: userData?.chores?.[0] },
+    { id: 1, label: userData?.chores?.[1] },
+    { id: 2, label: userData?.chores?.[2] },
+  ] : [];
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (snap.exists()) setUserData(snap.data());
+    };
+    fetchUser();
+  }, []);
 
   const toggle = (id) => setChecked(prev => ({ ...prev, [id]: !prev[id] }));
 
@@ -182,9 +197,11 @@ export function Chores() {
 
           {/* Banner */}
           <div className="chores-banner">
-            <div className="chores-banner-img" /> {/* I'll replace this w/ some images later, but unsure yet. /> */}
+            <div className="chores-banner-img">
+              <img src={ChecklistIcon} style={{width: '120px', marginLeft: '7px'}}></img>
+            </div>
             <div className="chores-banner-text">
-              Complete your daily chores today to earn bamboo &amp; apples!
+              Complete your daily chores today!
             </div>
           </div>
 
@@ -201,21 +218,12 @@ export function Chores() {
                 <div className={`chore-label ${checked[chore.id] ? 'checked' : ''}`}>
                   {chore.label}
                 </div>
-                <div className="chore-reward" /> {/* placeholder reward badge; don't have a sprite for this yet. */}
+                <div className="chore-reward">
+                  <img src={BadgeIcon} style={{ width: '28px', height: '28px', objectFit: 'contain' }} alt="badge" />
+                </div>
               </div>
             ))}
           </div>
-
-          {/* Bottom button */}
-          <div className="chores-bottom">
-            <Button
-              onClick={() => navigate('/marketplace')}
-              style={{ fontSize: '10px', padding: '4px 14px' }}
-            >
-              Spend your earnings!
-            </Button>
-          </div>
-
         </div>
       </div>
     </>
