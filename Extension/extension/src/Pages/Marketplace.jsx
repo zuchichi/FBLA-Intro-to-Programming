@@ -5,6 +5,7 @@ import PawIcon from '../assets/red_panda_paw.png';
 import AppleIcon from '../assets/apple.png';
 import BambooIcon from '../assets/bamboo.png';
 import Button from '../Components/Button';
+import { syncPetNote } from '../Utils/GetPetMessage';
 
 /* Image imports for all the items */
 import EnergyDrinkIcon from '../assets/energy-drink.png';
@@ -17,7 +18,7 @@ import SmallSoapIcon from '../assets/small_soap.png';
 import LargeSoapIcon from '../assets/large_soap.png';
 
 // For firebase
-import { auth, db } from "./firebase";
+import { auth, db } from "../Pages/firebase";
 import { doc, getDoc, updateDoc, onSnapshot } from "firebase/firestore";
 
 const styles = `
@@ -215,6 +216,8 @@ export function Marketplace() {
     const checkedData = await checkPetStatus(newData);
     setUserData(checkedData);
     setErrorMsg(`Bought ${item.name}!`);
+    await syncPetNote(newData);
+
     setTimeout(() => setErrorMsg(''), 3000);
   };
 

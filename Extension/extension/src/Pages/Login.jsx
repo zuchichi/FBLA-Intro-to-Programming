@@ -152,11 +152,11 @@ export function Login() {
             Log in
           </Button>
 
-          <Button onClick={() => navigate('/signup')} style={{ fontSize: '9px', padding: '4px 15px' }}>
+          <Button onClick={() => navigate('/signup')} style={{ fontSize: '8px', padding: '4px 15px' }}>
             Don't have an account? Get started!
           </Button>
 
-          <Button onClick={() => navigate('/intro')} style={{ fontSize: '9px', padding: '4px 15px' }}>
+          <Button onClick={() => navigate('/intro')} style={{ fontSize: '11px', padding: '4px 15px' }}>
             Go back
           </Button>
         </div>

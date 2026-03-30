@@ -7,6 +7,7 @@ import AppleIcon from '../assets/apple.png';
 import BambooIcon from '../assets/bamboo.png';
 import BookIcon from '../assets/book.png';
 import Button from '../Components/Button';
+import { applyDecay } from '../Utils/StatsDecay';
 
 // For firebase
 import { auth, db } from "./firebase";
@@ -171,6 +172,7 @@ export function Home() {
   useEffect(() => {
     const fetchUser = async () => {
       const user = auth.currentUser;
+      await applyDecay();
       if (!user) return;
       const snap = await getDoc(doc(db, "users", user.uid));
       if (snap.exists()) setUserData(snap.data());

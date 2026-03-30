@@ -34,7 +34,7 @@ const styles = `
   }
 
   .intro-logo {
-    width: 90px;
+    width: 140px;
     object-fit: contain;
     margin-bottom: 12px;
   }
