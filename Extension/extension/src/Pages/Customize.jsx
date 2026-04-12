@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import PawIcon from '../assets/red_panda_paw.png';
 import Button from '../Components/Button';
 import PersonalPetIcon from '../assets/red_panda_personal_icon.png';
-import { useUser } from '../context/UserContext';
 
 
 /* Firebase */

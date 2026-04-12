@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { HashRouter as Router, Routes, Route, Outlet } from 'react-router-dom'
-import { UserProvider } from './context/UserContext'; // Cache
 
 {/* Importing Components*/}
 import './App.css'
@@ -28,7 +27,6 @@ function Layout() {
 
 function App() {
   return (
-    <UserProvider>
       <Router>
         <Routes>
           <Route element={<Layout />}>
@@ -46,7 +44,6 @@ function App() {
           </Route>
         </Routes>
       </Router>
-    </UserProvider>
   )
 }
 

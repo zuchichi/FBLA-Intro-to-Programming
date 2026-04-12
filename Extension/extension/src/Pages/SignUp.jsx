@@ -8,7 +8,7 @@ import { signInWithEmailAndPassword, signInWithPopup, createUserWithEmailAndPass
 import { app } from "./firebase";
 
 import { auth, db } from "./firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, onSnapshot } from "firebase/firestore";
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
 
