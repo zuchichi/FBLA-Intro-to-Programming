@@ -10,6 +10,13 @@ const DECAY_PER_HOUR = {
   petHealth: 3600,        // Health slowly drops
 };
 
+const DECAY_FLOOR = {
+  petHunger: 90,        // Hunger goes up (more hungry)
+  petEnergy: 10,        // Energy goes down
+  petCleanliness: 80,   // Gets dirtier
+  petHealth: 10,        // Health slowly drops
+};
+
 const MINIMUMS = {
     petHunger: 95,
     petEnergy: 5,

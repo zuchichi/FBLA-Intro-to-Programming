@@ -172,8 +172,8 @@ export function Home() {
   useEffect(() => {
     const fetchUser = async () => {
       const user = auth.currentUser;
-      await applyDecay();
       if (!user) return;
+      await applyDecay();
       const snap = await getDoc(doc(db, "users", user.uid));
       if (snap.exists()) setUserData(snap.data());
     };
