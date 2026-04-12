@@ -26,7 +26,7 @@ const styles = `
 
   .petstats-card {
     width: 255px;
-    background: #ce3d3a;
+    background: #c13737;
     border-radius: 20px;
     padding: 16px 18px 14px;
     display: flex;
@@ -229,6 +229,9 @@ export function PetStats() {
             </Button>
             <Button onClick={() => navigate('/customize')} style={{ fontSize: '10px', padding: '4px 14px' }}>
               Customize Pet
+            </Button>
+            <Button onClick={() => navigate('/faq')} style={{ fontSize: '10px', padding: '4px 14px' }}>
+              FAQ
             </Button>
           </div>
 

@@ -24,7 +24,7 @@ const styles = `
 
   .chores-card {
     width: 255px;
-    background: #d33c3c;
+    background: #c13737;
     border-radius: 20px;
     padding: 14px 16px 16px;
     display: flex;

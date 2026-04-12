@@ -26,7 +26,7 @@ const styles = `
     position: relative;
     z-index: 1;
     width: 230px;
-    background: rgb(190, 55, 55);
+    background: #c13737;
     border-radius: 20px;
     padding: 20px 18px 18px;
     display: flex;

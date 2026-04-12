@@ -17,7 +17,7 @@ const styles = `
 
   .intro-card {
     width: 230px;
-    background: #d44c4c;
+    background: #c13737;
     border-radius: 20px;
     padding: 18px 16px 12px;
     display: flex;

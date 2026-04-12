@@ -24,7 +24,7 @@ const styles = `
 
   .pet-card {
     width: 255px;
-    background: #af3535;
+    background: #c13737;
     border-radius: 20px;
     padding: 14px 16px 18px;
     display: flex;

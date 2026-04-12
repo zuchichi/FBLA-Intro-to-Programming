@@ -36,7 +36,7 @@ const styles = `
 
   .market-card {
     width: 255px;
-    background: #c25151;
+    background: #c13737;
     border-radius: 20px;
     padding: 14px 16px 14px;
     display: flex;

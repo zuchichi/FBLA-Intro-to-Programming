@@ -16,6 +16,7 @@ import { PetStats } from './Pages/PetStats'
 import { Marketplace } from './Pages/Marketplace'
 import { FinancialLogistics } from './Pages/FinancialLogistics'
 import { Chores } from './Pages/Chores'
+import { Faq } from './Pages/Faq'
 
 function Layout() {
   return (
@@ -41,6 +42,7 @@ function App() {
             <Route path="/financialogistics" element={<FinancialLogistics />} />
             <Route path="/home" element={<Home />} />
             <Route path="/chores" element={< Chores />} />
+            <Route path="/faq" element={< Faq />} />
           </Route>
         </Routes>
       </Router>
